@@ -1,7 +1,8 @@
 node {    
     stage("composer_install") {
-        // Run `composer update` as a shell script
-        sh 'composer install'
+        // Composer Install
+        sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
+        sh 'echo "" | sudo -S service php7.2-fpm reload'
     }
     
     stage("phpunit") {
@@ -9,7 +10,17 @@ node {
         sh 'vendor/bin/phpunit'
     }
     
-    stage("laravel migration") {
-        sh 'php artisan migrate'
+    stage("migrations") {
+        sh 'php artisan migrate --force'
+    }
+    
+    stage("build assets") {
+        sh 'php artisan migrate --force'
+        
+        sh 'rm -fr public/images'
+        sh 'rm -fr public/css'
+        sh 'rm -fr public/js'
+        sh 'yarn'
+        sh 'npm run prod'
     }
 }
