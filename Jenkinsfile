@@ -1,9 +1,4 @@
-node {
-    stage('preparation') {
-        // Checkout the master branch of the Laravel framework repository
-        git branch: 'master', url: 'https://github.com/rayblair06/laravel.git'
-    }
-    
+node {    
     stage("composer_install") {
         // Run `composer update` as a shell script
         sh 'composer install'
