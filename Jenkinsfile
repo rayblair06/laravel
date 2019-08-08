@@ -2,7 +2,6 @@ node {
     stage("composer_install") {
         // Composer Install
         sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
-        sh 'echo "" | sudo -S service php7.2-fpm reload'
     }
     
     stage("phpunit") {
